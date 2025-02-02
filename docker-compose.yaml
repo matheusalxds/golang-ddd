@@ -1,9 +1,43 @@
 version: '3.1'
 
 services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - PORT=${PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - db
+      - migrate
+    volumes:
+      - .:/app
+  migrate:
+    image: migrate/migrate
+    entrypoint: >
+      sh -c "sleep 5 &&
+      migrate -path /migrations
+      -database postgres://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME?sslmode=disable up"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    volumes:
+      - ./src/infra/db/migrations:/migrations
+    depends_on:
+      - db
   db:
     container_name: pg-container
-    build: src/db/.docker
+    build: src/infra/db/.docker
     restart: always
     environment:
       POSTGRES_DB: 'fx-fiber-db'
@@ -13,3 +47,10 @@ services:
       - "5432:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
+  adminer:
+    depends_on:
+      - db
+    image: adminer
+    restart: always
+    ports:
+      - 3333:8080

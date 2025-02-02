@@ -1,0 +1,44 @@
+# Diretórios do controle de versão
+.git
+.gitignore
+
+# Diretórios de dependências
+vendor/
+
+# Diretórios e arquivos de configuração de IDEs e editores
+.vscode/
+.idea/
+*.swp
+
+# Binários gerados pelo Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+main
+
+# Arquivos temporários e logs
+*.log
+*.tmp
+*.cache
+*.bak
+
+# Diretórios de banco de dados ou volumes
+postgres_data/
+db_data/
+
+# Arquivos de ambiente (se não precisar deles no container)
+.env
+.env.*
+
+# Node modules (caso o projeto tenha alguma parte com JS/TS)
+node_modules/
+
+# Arquivos de build do Docker que não precisam ser copiados
+Dockerfile
+Dockerfile.*
+docker-compose.yaml
+docker-compose.*.yaml

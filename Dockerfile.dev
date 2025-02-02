@@ -1,0 +1,21 @@
+# Dockerfile.dev
+FROM golang:1.21.0 as builder
+
+# Diretório de trabalho dentro do container
+WORKDIR /app
+
+# Instalar uma versão específica do CompileDaemon
+RUN go install github.com/githubnemo/CompileDaemon@v1.3.0
+
+# Copiar os arquivos necessários para baixar as dependências
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copiar o restante do projeto
+COPY . .
+
+# Expor a porta definida na variável de ambiente
+EXPOSE 3000
+
+# Configurar hot reload com CompileDaemon
+ENTRYPOINT ["CompileDaemon", "--build=go build -o /app/main ./src/cmd", "--command=/app/main"]
