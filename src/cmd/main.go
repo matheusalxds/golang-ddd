@@ -3,11 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	applications "go-fx-project/src/application/users"
-	"go-fx-project/src/infra/db"
-	repo "go-fx-project/src/infra/db/repo/users"
-	idGenerator "go-fx-project/src/infra/id-generator"
-	usecases "go-fx-project/src/usecases/user"
+	"go-fx-project/src/internal/infra"
+	"go-fx-project/src/internal/user"
 
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/fx"
@@ -15,27 +12,13 @@ import (
 
 func main() {
 	app := fx.New(
-		fx.Provide(
-			db.ConnectDatabase,
-			NewFiberApp,
-			repo.NewUserRepo,
-			applications.NewUserHandler,
-			idGenerator.NewIdGenerator,
-			usecases.NewUserService,
-		),
-		fx.Invoke(registerRoutes),
+		fx.Provide(fiber.New),
+		infra.Module,
+		user.Module,
 		fx.Invoke(startServer),
 	)
 
 	app.Run()
-}
-
-func NewFiberApp() *fiber.App {
-	return fiber.New()
-}
-
-func registerRoutes(app *fiber.App, userHandler *applications.UserHandler) {
-	app.Post("/users", userHandler.CreateUser)
 }
 
 func startServer(lc fx.Lifecycle, app *fiber.App) {

@@ -1,14 +1,13 @@
-package repo
+package infra
 
 import (
-	"fmt"
-	"go-fx-project/src/infra/db/models"
+	"go-fx-project/src/internal/user/domain"
 
 	"gorm.io/gorm"
 )
 
 type UserRepo interface {
-	CreateUser(user *models.UserEntity) error
+	CreateUser(user *domain.UserEntity) error
 }
 
 type userRepo struct {
@@ -19,7 +18,6 @@ func NewUserRepo(db *gorm.DB) UserRepo {
 	return &userRepo{db: db}
 }
 
-func (r *userRepo) CreateUser(user *models.UserEntity) error {
-	fmt.Println("newUser >>", user)
+func (r *userRepo) CreateUser(user *domain.UserEntity) error {
 	return r.db.Create(user).Error
 }

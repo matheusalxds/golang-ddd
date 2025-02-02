@@ -1,16 +1,16 @@
-package applications
+package interfaces
 
 import (
-	usecases "go-fx-project/src/usecases/user"
+	"go-fx-project/src/internal/user/application"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 type UserHandler struct {
-	userService usecases.UserService
+	userService application.UserService
 }
 
-func NewUserHandler(userService usecases.UserService) *UserHandler {
+func NewUserHandler(userService application.UserService) *UserHandler {
 	return &UserHandler{userService: userService}
 }
 

@@ -32,12 +32,13 @@ services:
       - DB_PASS=${DB_PASS}
       - DB_NAME=${DB_NAME}
     volumes:
-      - ./src/infra/db/migrations:/migrations
+      - ./src/migrations:/migrations
     depends_on:
+      - api
       - db
   db:
     container_name: pg-container
-    build: src/infra/db/.docker
+    build: src/migrations/.docker
     restart: always
     environment:
       POSTGRES_DB: 'fx-fiber-db'
