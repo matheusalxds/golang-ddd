@@ -1,6 +1,7 @@
 package interfaces
 
 import (
+	http "go-fx-project/src/internal/shared"
 	"go-fx-project/src/internal/user/application"
 
 	"github.com/gofiber/fiber/v2"
@@ -22,17 +23,14 @@ func (h *UserHandler) CreateUser(c *fiber.Ctx) error {
 
 	var req request
 	if err := c.BodyParser(&req); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request"})
+		return http.BadRequest(c, "Invalid request")
 	}
 
 	newUser, err := h.userService.CreateUser(req.Name, req.Email)
 
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not create the user"})
+		return http.BadRequest(c, "Could not create the user")
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"message": "User created successfuly",
-		"user":    newUser,
-	})
+	return http.Ok(c, newUser)
 }
