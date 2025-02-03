@@ -16,7 +16,6 @@ services:
       - DB_NAME=${DB_NAME}
     depends_on:
       - db
-      - migrate
     volumes:
       - .:/app
   migrate:

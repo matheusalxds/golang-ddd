@@ -1,12 +1,11 @@
 # Etapa de build
-FROM golang:1.23.1 as builder
+FROM golang:alpine as builder
 WORKDIR /app
 COPY . .
-RUN go mod tidy
-RUN go build -o api main.go
+RUN CGO_ENABLE=0 GOOS=linux go build -ldflags="-s -w" -o server ./src/cmd
 
 # Etapa de execução
-FROM alpine:latest
-WORKDIR /root/
-COPY --from=builder /app/api .
-CMD ["./api"]
+FROM scratch
+WORKDIR /app/
+COPY --from=builder /app/server .
+CMD ["./server"]
