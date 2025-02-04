@@ -2,25 +2,27 @@ package db
 
 import (
 	"fmt"
+	"go-fx-project/src/internal/infra/env"
 	"log"
-	"os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-func BuildDNS() string {
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASS")
-	dbname := os.Getenv("DB_NAME")
+func BuildDNS(env env.EnvLoader) string {
+	envs := env.LoadEnv()
 
-	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	host := envs.DBHost
+	port := envs.DBPort
+	user := envs.DBUser
+	password := envs.DBPasss
+	dbname := envs.DBName
+
+	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 }
 
-func ConnectDatabase() *gorm.DB {
-	db, err := gorm.Open(postgres.Open(BuildDNS()), &gorm.Config{})
+func ConnectDatabase(env env.EnvLoader) *gorm.DB {
+	db, err := gorm.Open(postgres.Open(BuildDNS(env)), &gorm.Config{})
 
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)

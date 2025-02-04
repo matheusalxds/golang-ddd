@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go-fx-project/src/internal/infra"
+	"go-fx-project/src/internal/infra/env"
 	"go-fx-project/src/internal/user"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,17 +18,16 @@ func main() {
 		user.Module,
 		fx.Invoke(startServer),
 	)
-
 	app.Run()
 }
 
-func startServer(lc fx.Lifecycle, app *fiber.App) {
+func startServer(lc fx.Lifecycle, app *fiber.App, env env.EnvLoader) {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			port := 3000
-			fmt.Printf("Server is running on http://localhost:%d\n", port)
+			port := env.LoadEnv().Port
+			fmt.Printf("Server is running on http://localhost:%s\n", port)
 			go func() {
-				if err := app.Listen(fmt.Sprintf(":%d", port)); err != nil {
+				if err := app.Listen(fmt.Sprintf(":%s", port)); err != nil {
 					panic(err)
 				}
 			}()
