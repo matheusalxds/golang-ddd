@@ -42,3 +42,6 @@ Dockerfile
 Dockerfile.*
 docker-compose.yaml
 docker-compose.*.yaml
+
+# Docker volume
+postgres_data
