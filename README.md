@@ -14,6 +14,8 @@ A Go project structured with Domain-Driven Design (DDD) principles and leveragin
 
 **UUID**: For generating unique identifiers.
 
+**Viper**: For managing environment variables.
+
 **Testify**: For testing utilities.
 
 **Docker**: For containerizing the application and managing services.
@@ -27,7 +29,8 @@ A Go project structured with Domain-Driven Design (DDD) principles and leveragin
 ├── internal
 │   ├── infra                  # Infrastructure layer
 │   │   ├── db                 # Database connection setup
-│   │   └── id-generator       # UUID generation logic
+│   │   ├── id-generator       # UUID generation logic
+│   │   └── env                # environment loader
 │   │
 │   ├── user                   # User domain
 │   │   ├── application        # Application services
