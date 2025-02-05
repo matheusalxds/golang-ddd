@@ -27,12 +27,11 @@ main
 *.bak
 
 # Diretórios de banco de dados ou volumes
-postgres_data/
-db_data/
+postgres_data
 
 # Arquivos de ambiente (se não precisar deles no container)
-.env
-.env.*
+# .env
+# .env.*
 
 # Node modules (caso o projeto tenha alguma parte com JS/TS)
 node_modules/
@@ -42,6 +41,3 @@ Dockerfile
 Dockerfile.*
 docker-compose.yaml
 docker-compose.*.yaml
-
-# Docker volume
-postgres_data

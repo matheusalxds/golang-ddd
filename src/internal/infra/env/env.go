@@ -1,8 +1,6 @@
 package env
 
 import (
-	"log"
-
 	"github.com/spf13/viper"
 )
 
@@ -20,12 +18,7 @@ type Env struct {
 }
 
 func (*Env) LoadEnv() *Env {
-	viper.SetConfigFile(".env")
 	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err != nil {
-		log.Fatalf("Error loading environments: %v", err)
-	}
 
 	return &Env{
 		Port:    viper.GetString("PORT"),

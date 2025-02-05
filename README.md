@@ -59,13 +59,13 @@ A Go project structured with Domain-Driven Design (DDD) principles and leveragin
 
 ### Install dependencies
 
-```
+```sh
 $ go mod tidy
 ```
 
 ### Start the application with Docker:
 
-```
+```sh
 $ docker-compose up --build
 ```
 
@@ -73,8 +73,14 @@ This will spin up the application along with PostgreSQL and a service dedicated 
 
 ### Run migrations manually (if needed):
 
-```
+```sh
 $ docker-compose run migrate
+```
+
+### Running only the api image
+
+```sh
+$ docker run --env-file .env --network fx-di_default -p 3000:3000 go-fx-api
 ```
 
 ## Testing
