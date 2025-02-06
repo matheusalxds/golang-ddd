@@ -8,11 +8,7 @@ import (
 )
 
 func TestIdGenerator(t *testing.T) {
-	var sut IdGenerator
-
-	t.Run("beforeEach", func(t *testing.T) {
-		sut = NewIdGenerator()
-	})
+	sut := NewIdGenerator()
 
 	t.Run("should generate uuid v7", func(t *testing.T) {
 		id, _ := sut.GenerateUUID()
