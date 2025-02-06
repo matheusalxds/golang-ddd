@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/fx"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -21,11 +22,11 @@ func main() {
 	app.Run()
 }
 
-func startServer(lc fx.Lifecycle, app *fiber.App, env env.EnvLoader) {
+func startServer(lc fx.Lifecycle, app *fiber.App, env env.EnvLoader, logger *zap.Logger) {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
 			port := env.LoadEnv().Port
-			fmt.Printf("Server is running on http://localhost:%s\n", port)
+			logger.Info("Server is running on http://localhost:" + port)
 			go func() {
 				if err := app.Listen(fmt.Sprintf(":%s", port)); err != nil {
 					panic(err)
@@ -34,7 +35,7 @@ func startServer(lc fx.Lifecycle, app *fiber.App, env env.EnvLoader) {
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {
-			fmt.Println("Stopping server...")
+			logger.Info("Stopping server...")
 			return app.Shutdown()
 		},
 	})

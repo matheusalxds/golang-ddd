@@ -15,12 +15,14 @@ type Env struct {
 	DBUser  string
 	DBPasss string
 	DBName  string
+	GoEnv   string
 }
 
 func (*Env) LoadEnv() *Env {
 	viper.AutomaticEnv()
 
 	return &Env{
+		GoEnv:   viper.GetString("GO_ENV"),
 		Port:    viper.GetString("PORT"),
 		DBHost:  viper.GetString("DB_HOST"),
 		DBPort:  viper.GetInt("DB_PORT"),

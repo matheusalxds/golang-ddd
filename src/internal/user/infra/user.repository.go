@@ -7,7 +7,7 @@ import (
 )
 
 type UserRepo interface {
-	CreateUser(user *domain.UserEntity) error
+	CreateUser(user *domain.UserEntity) (*domain.UserEntity, error)
 }
 
 type userRepo struct {
@@ -18,6 +18,11 @@ func NewUserRepo(db *gorm.DB) UserRepo {
 	return &userRepo{db: db}
 }
 
-func (r *userRepo) CreateUser(user *domain.UserEntity) error {
-	return r.db.Create(user).Error
+func (r *userRepo) CreateUser(user *domain.UserEntity) (*domain.UserEntity, error) {
+	result := r.db.Create(user)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return user, nil
 }
