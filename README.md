@@ -8,6 +8,8 @@ A Go project structured with Domain-Driven Design (DDD) principles and leveragin
 
 **Fx**: Dependency injection and lifecycle management.
 
+**Zap**: For logging information.
+
 **Fiber**: Web framework for building APIs.
 
 **PostgreSQL**: Database integration.
@@ -29,8 +31,9 @@ A Go project structured with Domain-Driven Design (DDD) principles and leveragin
 ├── internal
 │   ├── infra                  # Infrastructure layer
 │   │   ├── db                 # Database connection setup
+│   │   ├── env                # Environment loader
 │   │   ├── id-generator       # UUID generation logic
-│   │   └── env                # environment loader
+│   │   └── logger             # Logger tooling
 │   │
 │   ├── user                   # User domain
 │   │   ├── application        # Application services
